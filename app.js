@@ -10,10 +10,18 @@ const handleSearch = async () => {
         const searchValue = getSearchValue().trim();
         const res = await fetch(`https://api.lyrics.ovh/suggest/${searchValue}`);
         const data = await res.json();
-        showSongs(data.data);
+        console.log(data);
+        if(data.total > 0) {
+            showSongs(data.data);
+            document.getElementById("error").innerText = '';
+        } else {
+            displayError("Songs not found")
+            document.getElementById('search-value').value = '';
+        }
+       
    }
    catch(error) {
-       displayError();
+       displayError("We are unable to connect with the server. Please try again later.");
    }
 }
 
@@ -48,10 +56,15 @@ const getLyrics = async (artistName, songTitle) => {
     try {
         const res = await fetch(`https://api.lyrics.ovh/v1/${artistName}/${songTitle}`);
         const data = await res.json();
-        displayLyrics(data.lyrics);
+        if(data.lyrics.length > 0) {
+            displayLyrics(data.lyrics);
+        } else {
+            displayError("Lyrics not found");
+        }
+       
     }
     catch(error){
-        displayError()
+        displayError("We are unable to connect with the server. please try again later.")
     }
     
 }
@@ -66,5 +79,5 @@ const displayLyrics = (lyrics) => {
 //display error 
 const displayError = (error) => {
     document.getElementById('error').classList.add('text-white', 'text-center')
-    document.getElementById("error").innerText = "Songs not found";
+    document.getElementById("error").innerText = error;
 }
