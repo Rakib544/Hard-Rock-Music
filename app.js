@@ -8,7 +8,7 @@ const getSearchValue = () => {
 const handleSearch = async () => {
    try {
         const searchValue = getSearchValue().trim();
-        const res = await fetch(`http://api.lyrics.ovh/suggest/${searchValue}`);
+        const res = await fetch(`https://api.lyrics.ovh/suggest/${searchValue}`);
         const data = await res.json();
         console.log(data);
         if(data.total > 0) {
@@ -54,7 +54,7 @@ const showSongs = (songs) => {
 //show lyrics 
 const getLyrics = async (artistName, songTitle) => {
     try {
-        const res = await fetch(`http://api.lyrics.ovh/v1/${artistName}/${songTitle}`);
+        const res = await fetch(`https://api.lyrics.ovh/v1/${artistName}/${songTitle}`);
         const data = await res.json();
         if(data.lyrics.length > 0) {
             displayLyrics(data.lyrics);
